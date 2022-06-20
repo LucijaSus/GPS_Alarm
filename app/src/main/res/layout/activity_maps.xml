@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/round_edge"
-            android:text="Nastavi Geofence" />
+            android:text="Prikaži Geofence" />
     </LinearLayout>
 
     <Button

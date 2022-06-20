@@ -3,6 +3,7 @@ package com.example.geofencing;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.List;
+import java.util.Locale;
 
 public class GeofenceBroadcastReceiver extends BroadcastReceiver {
 
@@ -37,20 +39,17 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
         }
 //        Location location = geofencingEvent.getTriggeringLocation();
         int transitionType = geofencingEvent.getGeofenceTransition();
-        //String naslov = intent.getStringExtra(MapsActivity.NASLOV1);
+        SharedPreferences sp = context.getApplicationContext().getSharedPreferences("Alarm", Context.MODE_PRIVATE);
+        String naslov = sp.getString("naslov", "");
 
         switch (transitionType) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
-                //Toast.makeText(context, naslov, Toast.LENGTH_SHORT).show();
-                notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_ENTER", "", MapsActivity.class);
+                Toast.makeText(context,naslov.toUpperCase(Locale.ROOT) +" gEOFENCE_TRANSITION_ENTER".toLowerCase(), Toast.LENGTH_SHORT).show();
+                notificationHelper.sendHighPriorityNotification(naslov.toUpperCase(Locale.ROOT), "GEOFENCE_TRANSITION_ENTER".toLowerCase(Locale.ROOT), MapsActivity.class);
                 break;
             case Geofence.GEOFENCE_TRANSITION_DWELL:
-                Toast.makeText(context, "GEOFENCE_TRANSITION_DWELL", Toast.LENGTH_SHORT).show();
-                notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_DWELL", "", MapsActivity.class);
-                break;
-            case Geofence.GEOFENCE_TRANSITION_EXIT:
-                Toast.makeText(context, "GEOFENCE_TRANSITION_EXIT", Toast.LENGTH_SHORT).show();
-                notificationHelper.sendHighPriorityNotification("GEOFENCE_TRANSITION_EXIT", "", MapsActivity.class);
+                Toast.makeText(context, naslov.toUpperCase(Locale.ROOT)+" gEOFENCE_TRANSITION_DWELL ".toLowerCase(Locale.ROOT), Toast.LENGTH_SHORT).show();
+                notificationHelper.sendHighPriorityNotification(naslov.toUpperCase(Locale.ROOT), "GEOFENCE_TRANSITION_DWELL".toLowerCase(Locale.ROOT), MapsActivity.class);
                 break;
         }
 

@@ -59,7 +59,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     SharedPreferences sp;
     String naslovStr;
     String radijStr;
-    SharedPreferences sp1;
     float radij1;
     int s=0;
 
@@ -96,7 +95,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     //i.putExtra(NASLOV1,naslov_text);
                     GEOFENCE_RADIUS = Float.parseFloat(radij_text);
                     addCircle(position, GEOFENCE_RADIUS);
-                    addGeofence(position, GEOFENCE_RADIUS);
                 }
                 else{
                     Toast.makeText(geofenceHelper, "Izberi lokacijo", Toast.LENGTH_LONG).show();
@@ -107,8 +105,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         naslov = findViewById(R.id.Naslov);
         radij = findViewById(R.id.Text_radij);
-
-
     }
 
 
@@ -128,9 +124,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng eiffel = new LatLng(46.045202, 14.489885);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(eiffel, 16));
-
         enableUserLocation();
 
         mMap.setOnMapLongClickListener(this);
@@ -147,6 +140,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             radij1 = sp.getFloat("radij1", 15f);
             addMarker(position);
             addCircle(position, radij1);
+        }
+        if(s==0) {
+            LatLng eiffel = new LatLng(46.045202, 14.489885);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(eiffel, 15));
+        }
+        else{
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15));
         }
     }
 
@@ -261,6 +261,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void shrani(View view) {
         if(position!=null) {
+            addGeofence(position, GEOFENCE_RADIUS);
             naslovStr = naslov.getText().toString();
             radijStr = radij.getText().toString();
             s=1;
